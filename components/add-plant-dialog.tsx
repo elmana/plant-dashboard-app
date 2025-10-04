@@ -43,7 +43,7 @@ export function AddPlantDialog({ open, onOpenChange, onPlantAdded }: AddPlantDia
     const newPlant = addPlant(plantData)
     // Update condition after creation
     const condition = checkPlantCondition(newPlant)
-    addPlant({ ...plantData, condition })
+    //addPlant({ ...plantData, condition })
 
     // Reset form
     setName("")
