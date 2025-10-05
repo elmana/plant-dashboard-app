@@ -1,3 +1,20 @@
-# RELEASE NOTES TEMPLATE
+# LeafMeAlone vX.Y.Z (YYYY-MM-DD)
 
-Placeholder for RELEASE_NOTES_TEMPLATE.md content.
+## Highlights
+- …
+
+## New
+- …
+
+## Improvements
+- …
+
+## Fixes
+- …
+
+## Breaking Changes
+- …
+
+## How to Update
+- Deploy commit: `<sha>`
+- Environment: `prod`
