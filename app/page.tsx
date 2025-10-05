@@ -7,6 +7,10 @@ import { AddPlantDialog } from "@/components/add-plant-dialog"
 import { getPlants } from "@/lib/plant-storage"
 import type { Plant } from "@/lib/types"
 import { Sprout } from "lucide-react"
+import { getTimeOffset, setTimeOffset } from "@/lib/time-accelerator"
+import { addTweet } from "@/lib/plant-storage"
+import { getRandomTweet } from "@/lib/pre-generated-tweets"
+import { checkPlantCondition } from "@/lib/plant-monitor"
 
 export default function Home() {
   const [plants, setPlants] = useState<Plant[]>([])
@@ -17,6 +21,45 @@ export default function Home() {
     setMounted(true)
     setPlants(getPlants())
   }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
+    const interval = setInterval(() => {
+      const currentOffset = getTimeOffset()
+      const oneHourInMs = 60 * 60 * 1000
+      setTimeOffset(currentOffset + oneHourInMs)
+      // Force re-render to update displayed times
+      setPlants(getPlants())
+    }, 1000) // Every 1 real second
+
+    return () => clearInterval(interval)
+  }, [mounted])
+
+  useEffect(() => {
+    if (!mounted) return
+
+    const interval = setInterval(() => {
+      const currentPlants = getPlants()
+      let tweetsGenerated = false
+
+      currentPlants.forEach((plant) => {
+        const condition = checkPlantCondition(plant)
+        // Generate tweet if plant is not healthy
+        if (condition !== "healthy") {
+          const message = getRandomTweet()
+          addTweet(plant.id, { message, condition })
+          tweetsGenerated = true
+        }
+      })
+
+      if (tweetsGenerated) {
+        setPlants(getPlants())
+      }
+    }, 10000) // Every 10 seconds
+
+    return () => clearInterval(interval)
+  }, [mounted])
 
   const handleUpdate = () => {
     setPlants(getPlants())

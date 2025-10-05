@@ -2,14 +2,64 @@ import type { Plant, Tweet } from "./types"
 
 const STORAGE_KEY = "leafmealone_plants"
 const TWEET_INTERVAL = 6 * 60 * 60 * 1000 // 6 hours in milliseconds
+const INITIALIZED_KEY = "leafmealone_initialized"
+
+function getDefaultPlants(): Plant[] {
+  const now = new Date()
+  const threeWeeksAgo = new Date(now.getTime() - 21 * 24 * 60 * 60 * 1000)
+
+  return [
+    {
+      id: crypto.randomUUID(),
+      name: "Cvijetak Zanovijetak",
+      type: "Flowering Plant",
+      emoji: "🌺",
+      lastWatered: now,
+      lightLevel: 20, // low light
+      humidity: 30, // low humidity
+      condition: "low-light",
+      tweets: [],
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "kaTKus",
+      type: "Cactus",
+      emoji: "🌵",
+      lastWatered: threeWeeksAgo, // 3 weeks ago
+      lightLevel: 25, // low light
+      humidity: 50, // ok humidity
+      condition: "thirsty",
+      tweets: [],
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Selfikus Pokus",
+      type: "Potted Plant",
+      emoji: "🪴",
+      lastWatered: now,
+      lightLevel: 70, // good light
+      humidity: 60, // good humidity
+      condition: "healthy",
+      tweets: [],
+    },
+  ]
+}
 
 export function getPlants(): Plant[] {
   if (typeof window === "undefined") return []
+
+  const isInitialized = localStorage.getItem(INITIALIZED_KEY)
+  if (!isInitialized) {
+    const defaultPlants = getDefaultPlants()
+    savePlants(defaultPlants)
+    localStorage.setItem(INITIALIZED_KEY, "true")
+    return defaultPlants
+  }
+
   const stored = localStorage.getItem(STORAGE_KEY)
   if (!stored) return []
 
   const plants = JSON.parse(stored)
-  // Convert date strings back to Date objects
   return plants.map((plant: any) => ({
     ...plant,
     lastWatered: new Date(plant.lastWatered),
@@ -57,7 +107,6 @@ export function addTweet(plantId: string, tweet: Omit<Tweet, "id" | "plantId" | 
       timestamp: new Date(),
     }
     plant.tweets.unshift(newTweet)
-    // Keep only last 20 tweets per plant
     plant.tweets = plant.tweets.slice(0, 20)
     savePlants(plants)
   }

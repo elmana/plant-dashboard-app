@@ -1,10 +1,13 @@
 "use client"
 
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { MessageSquare } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { MessageSquare, Sparkles } from "lucide-react"
 import type { Plant } from "@/lib/types"
 import { formatDistanceToNow } from "date-fns"
-import { TweetDialog } from "./tweet-dialog"
+import { addTweet } from "@/lib/plant-storage"
+import { getRandomTweet } from "@/lib/pre-generated-tweets"
+import { checkPlantCondition } from "@/lib/plant-monitor"
 
 interface TweetFeedProps {
   plant: Plant
@@ -12,6 +15,13 @@ interface TweetFeedProps {
 }
 
 export function TweetFeed({ plant, onUpdate }: TweetFeedProps) {
+  const handleGenerateTweet = () => {
+    const message = getRandomTweet()
+    const condition = checkPlantCondition(plant)
+    addTweet(plant.id, { message, condition })
+    onUpdate()
+  }
+
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
@@ -19,7 +29,10 @@ export function TweetFeed({ plant, onUpdate }: TweetFeedProps) {
           <MessageSquare className="w-4 h-4" />
           Recent Tweets
         </h3>
-        <TweetDialog plant={plant} onUpdate={onUpdate} />
+        <Button onClick={handleGenerateTweet} size="sm" variant="outline">
+          <Sparkles className="w-4 h-4 mr-1" />
+          Generate
+        </Button>
       </div>
 
       {plant.tweets.length === 0 ? (

@@ -8,6 +8,7 @@ import type { Plant } from "@/lib/types"
 import { checkPlantCondition, getConditionEmoji, getConditionColor } from "@/lib/plant-monitor"
 import { updatePlant, savePlants, getPlants } from "@/lib/plant-storage"
 import { TweetFeed } from "./tweet-feed"
+import { getHoursSince } from "@/lib/time-accelerator"
 
 interface PlantCardProps {
   plant: Plant
@@ -38,7 +39,7 @@ export function PlantCard({ plant, onUpdate }: PlantCardProps) {
     onUpdate()
   }
 
-  const hoursSinceWatered = Math.floor((Date.now() - plant.lastWatered.getTime()) / (1000 * 60 * 60))
+  const hoursSinceWatered = getHoursSince(plant.lastWatered)
 
   return (
     <Card className="overflow-hidden border-2 border-green-200 dark:border-green-800 bg-white dark:bg-green-950/50">
