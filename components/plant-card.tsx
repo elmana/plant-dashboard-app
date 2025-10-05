@@ -76,13 +76,13 @@ export function PlantCard({ plant, onUpdate }: PlantCardProps) {
 
   return (
     <Card className="overflow-hidden border-2 border-green-200 dark:border-green-800 bg-white dark:bg-green-950/50">
-      <CardHeader className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900 dark:to-emerald-900">
+      <CardHeader className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900 dark:to-emerald-900 pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
             <span className="text-4xl">{plant.emoji}</span>
-            <div>
-              <CardTitle className="text-xl text-green-900 dark:text-green-100">{plant.name}</CardTitle>
-              <p className="text-sm text-green-700 dark:text-green-300">{plant.type}</p>
+            <div className="h-[4.5rem] flex flex-col justify-center">
+              <CardTitle className="text-xl text-green-900 dark:text-green-100 line-clamp-2">{plant.name}</CardTitle>
+              <p className="text-sm text-green-700 dark:text-green-300 line-clamp-1">{plant.type}</p>
             </div>
           </div>
           <Button
@@ -96,9 +96,9 @@ export function PlantCard({ plant, onUpdate }: PlantCardProps) {
         </div>
       </CardHeader>
 
-      <CardContent className="pt-6 space-y-4">
+      <CardContent className="pt-3 space-y-3">
         <div className="flex items-center justify-between">
-          <Badge variant="outline" className={`${conditionColor} border-current`}>
+          <Badge variant="secondary" className={`${conditionColor}`}>
             {conditionEmoji} {condition.replace("-", " ").toUpperCase()}
           </Badge>
           <Button onClick={handleWater} size="sm" className="bg-blue-600 hover:bg-blue-700">
@@ -107,64 +107,66 @@ export function PlantCard({ plant, onUpdate }: PlantCardProps) {
           </Button>
         </div>
 
-        <div className="grid grid-cols-3 gap-2 text-sm">
-          <div className="flex flex-col items-center p-2 bg-blue-50 dark:bg-blue-950/30 rounded">
-            <Droplet className="w-4 h-4 mb-1 text-blue-600 dark:text-blue-400" />
+        <div className="space-y-2 text-sm">
+          <div className="flex items-center gap-2 p-2 bg-blue-50 dark:bg-blue-950/30 rounded">
+            <Droplet className="w-4 h-4 text-blue-600 dark:text-blue-400" />
             <span className="text-xs text-muted-foreground">{timeSinceWatered}</span>
           </div>
 
-          <div className="flex flex-col items-center p-2 bg-yellow-50 dark:bg-yellow-950/30 rounded relative group">
-            <Sun className="w-4 h-4 mb-1 text-yellow-600 dark:text-yellow-400" />
-            {isEditingLight ? (
-              <Input
-                type="number"
-                value={lightValue}
-                onChange={(e) => setLightValue(e.target.value)}
-                onBlur={handleLightSave}
-                onKeyDown={(e) => e.key === "Enter" && handleLightSave()}
-                className="h-6 w-16 text-xs text-center p-0"
-                autoFocus
-              />
-            ) : (
-              <div className="flex items-center gap-1">
-                <span className="text-xs text-muted-foreground">{plant.lightLevel}%</span>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={() => setIsEditingLight(true)}
-                >
-                  <Edit2 className="w-3 h-3" />
-                </Button>
-              </div>
-            )}
-          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="flex items-center gap-2 p-2 bg-yellow-50 dark:bg-yellow-950/30 rounded relative group">
+              <Sun className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
+              {isEditingLight ? (
+                <Input
+                  type="number"
+                  value={lightValue}
+                  onChange={(e) => setLightValue(e.target.value)}
+                  onBlur={handleLightSave}
+                  onKeyDown={(e) => e.key === "Enter" && handleLightSave()}
+                  className="h-6 w-16 text-xs text-center p-0"
+                  autoFocus
+                />
+              ) : (
+                <div className="flex items-center gap-1">
+                  <span className="text-xs text-muted-foreground">{plant.lightLevel}%</span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={() => setIsEditingLight(true)}
+                  >
+                    <Edit2 className="w-3 h-3" />
+                  </Button>
+                </div>
+              )}
+            </div>
 
-          <div className="flex flex-col items-center p-2 bg-cyan-50 dark:bg-cyan-950/30 rounded relative group">
-            <Wind className="w-4 h-4 mb-1 text-cyan-600 dark:text-cyan-400" />
-            {isEditingHumidity ? (
-              <Input
-                type="number"
-                value={humidityValue}
-                onChange={(e) => setHumidityValue(e.target.value)}
-                onBlur={handleHumiditySave}
-                onKeyDown={(e) => e.key === "Enter" && handleHumiditySave()}
-                className="h-6 w-16 text-xs text-center p-0"
-                autoFocus
-              />
-            ) : (
-              <div className="flex items-center gap-1">
-                <span className="text-xs text-muted-foreground">{plant.humidity}%</span>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={() => setIsEditingHumidity(true)}
-                >
-                  <Edit2 className="w-3 h-3" />
-                </Button>
-              </div>
-            )}
+            <div className="flex items-center gap-2 p-2 bg-cyan-50 dark:bg-cyan-950/30 rounded relative group">
+              <Wind className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+              {isEditingHumidity ? (
+                <Input
+                  type="number"
+                  value={humidityValue}
+                  onChange={(e) => setHumidityValue(e.target.value)}
+                  onBlur={handleHumiditySave}
+                  onKeyDown={(e) => e.key === "Enter" && handleHumiditySave()}
+                  className="h-6 w-16 text-xs text-center p-0"
+                  autoFocus
+                />
+              ) : (
+                <div className="flex items-center gap-1">
+                  <span className="text-xs text-muted-foreground">{plant.humidity}%</span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={() => setIsEditingHumidity(true)}
+                  >
+                    <Edit2 className="w-3 h-3" />
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

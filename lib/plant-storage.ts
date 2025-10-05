@@ -57,7 +57,11 @@ export function getPlants(): Plant[] {
   }
 
   const stored = localStorage.getItem(STORAGE_KEY)
-  if (!stored) return []
+  if (!stored) {
+    const defaultPlants = getDefaultPlants()
+    savePlants(defaultPlants)
+    return defaultPlants
+  }
 
   const plants = JSON.parse(stored)
   return plants.map((plant: any) => ({
@@ -96,7 +100,7 @@ export function updatePlant(id: string, updates: Partial<Plant>): void {
   }
 }
 
-export function addTweet(plantId: string, tweet: Omit<Tweet, "id" | "plantId" | "timestamp">): void {
+export function addTweet(plantId: string, tweet: Omit<Tweet, "id" | "plantId" | "timestamp">): Tweet {
   const plants = getPlants()
   const plant = plants.find((p) => p.id === plantId)
   if (plant) {
@@ -109,6 +113,15 @@ export function addTweet(plantId: string, tweet: Omit<Tweet, "id" | "plantId" | 
     plant.tweets.unshift(newTweet)
     plant.tweets = plant.tweets.slice(0, 20)
     savePlants(plants)
+    return newTweet
+  }
+  // Return a dummy tweet if plant not found (shouldn't happen)
+  return {
+    id: crypto.randomUUID(),
+    plantId,
+    timestamp: new Date(),
+    message: "",
+    condition: "healthy",
   }
 }
 
