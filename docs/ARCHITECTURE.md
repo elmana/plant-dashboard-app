@@ -22,3 +22,31 @@ flowchart LR
 
   classDef future fill:#eef,stroke:#99f,stroke-width:1px,stroke-dasharray:3 3
   class API,DB future
+```
+
+## Tweet Flow (Ad-hoc)
+```mermaid
+
+sequenceDiagram
+  participant U as User
+  participant UI as React UI
+  participant S as In-memory Store
+  U->>UI: Click "Generate"
+  UI->>S: createTweet(plantId)
+  S-->>UI: tweet text
+  UI-->>U: Display toast/tweet
+```
+## Tweet Flow (Scheduled every 6h if unhealthy)
+
+```mermaid
+sequenceDiagram
+  participant T as Scheduler (6h)
+  participant S as Store
+  participant E as Evaluator
+  T->>S: for each plant -> evaluate
+  S->>E: getHealthStatus(plant)
+  E-->>S: status (healthy | not)
+  alt status != healthy
+    S->>S: enqueueTweet(plantId,status)
+  end
+```
