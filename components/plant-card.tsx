@@ -3,12 +3,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Droplet, Sun, Wind, Trash2 } from "lucide-react"
+import { Droplet, Sun, Wind, Trash2, Edit2 } from "lucide-react"
 import type { Plant } from "@/lib/types"
 import { checkPlantCondition, getConditionEmoji, getConditionColor } from "@/lib/plant-monitor"
 import { updatePlant, savePlants, getPlants } from "@/lib/plant-storage"
 import { TweetFeed } from "./tweet-feed"
-import { getHoursSince } from "@/lib/time-accelerator"
+import { formatTimeSince, getAcceleratedTime } from "@/lib/time-accelerator"
+import { useState } from "react"
+import { Input } from "@/components/ui/input"
 
 interface PlantCardProps {
   plant: Plant
@@ -16,12 +18,17 @@ interface PlantCardProps {
 }
 
 export function PlantCard({ plant, onUpdate }: PlantCardProps) {
+  const [isEditingLight, setIsEditingLight] = useState(false)
+  const [isEditingHumidity, setIsEditingHumidity] = useState(false)
+  const [lightValue, setLightValue] = useState(plant.lightLevel.toString())
+  const [humidityValue, setHumidityValue] = useState(plant.humidity.toString())
+
   const condition = checkPlantCondition(plant)
   const conditionEmoji = getConditionEmoji(condition)
   const conditionColor = getConditionColor(condition)
 
   const handleWater = () => {
-    const newLastWatered = new Date()
+    const newLastWatered = getAcceleratedTime()
     const updatedPlant = { ...plant, lastWatered: newLastWatered }
     const newCondition = checkPlantCondition(updatedPlant)
 
@@ -39,7 +46,33 @@ export function PlantCard({ plant, onUpdate }: PlantCardProps) {
     onUpdate()
   }
 
-  const hoursSinceWatered = getHoursSince(plant.lastWatered)
+  const handleLightSave = () => {
+    const newLight = Math.max(0, Math.min(100, Number.parseInt(lightValue) || 0))
+    const updatedPlant = { ...plant, lightLevel: newLight }
+    const newCondition = checkPlantCondition(updatedPlant)
+
+    updatePlant(plant.id, {
+      lightLevel: newLight,
+      condition: newCondition,
+    })
+    setIsEditingLight(false)
+    onUpdate()
+  }
+
+  const handleHumiditySave = () => {
+    const newHumidity = Math.max(0, Math.min(100, Number.parseInt(humidityValue) || 0))
+    const updatedPlant = { ...plant, humidity: newHumidity }
+    const newCondition = checkPlantCondition(updatedPlant)
+
+    updatePlant(plant.id, {
+      humidity: newHumidity,
+      condition: newCondition,
+    })
+    setIsEditingHumidity(false)
+    onUpdate()
+  }
+
+  const timeSinceWatered = formatTimeSince(plant.lastWatered)
 
   return (
     <Card className="overflow-hidden border-2 border-green-200 dark:border-green-800 bg-white dark:bg-green-950/50">
@@ -64,7 +97,6 @@ export function PlantCard({ plant, onUpdate }: PlantCardProps) {
       </CardHeader>
 
       <CardContent className="pt-6 space-y-4">
-        {/* Status Badge */}
         <div className="flex items-center justify-between">
           <Badge variant="outline" className={`${conditionColor} border-current`}>
             {conditionEmoji} {condition.replace("-", " ").toUpperCase()}
@@ -75,23 +107,67 @@ export function PlantCard({ plant, onUpdate }: PlantCardProps) {
           </Button>
         </div>
 
-        {/* Stats */}
         <div className="grid grid-cols-3 gap-2 text-sm">
           <div className="flex flex-col items-center p-2 bg-blue-50 dark:bg-blue-950/30 rounded">
             <Droplet className="w-4 h-4 mb-1 text-blue-600 dark:text-blue-400" />
-            <span className="text-xs text-muted-foreground">{hoursSinceWatered}h ago</span>
+            <span className="text-xs text-muted-foreground">{timeSinceWatered}</span>
           </div>
-          <div className="flex flex-col items-center p-2 bg-yellow-50 dark:bg-yellow-950/30 rounded">
+
+          <div className="flex flex-col items-center p-2 bg-yellow-50 dark:bg-yellow-950/30 rounded relative group">
             <Sun className="w-4 h-4 mb-1 text-yellow-600 dark:text-yellow-400" />
-            <span className="text-xs text-muted-foreground">{plant.lightLevel}%</span>
+            {isEditingLight ? (
+              <Input
+                type="number"
+                value={lightValue}
+                onChange={(e) => setLightValue(e.target.value)}
+                onBlur={handleLightSave}
+                onKeyDown={(e) => e.key === "Enter" && handleLightSave()}
+                className="h-6 w-16 text-xs text-center p-0"
+                autoFocus
+              />
+            ) : (
+              <div className="flex items-center gap-1">
+                <span className="text-xs text-muted-foreground">{plant.lightLevel}%</span>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => setIsEditingLight(true)}
+                >
+                  <Edit2 className="w-3 h-3" />
+                </Button>
+              </div>
+            )}
           </div>
-          <div className="flex flex-col items-center p-2 bg-cyan-50 dark:bg-cyan-950/30 rounded">
+
+          <div className="flex flex-col items-center p-2 bg-cyan-50 dark:bg-cyan-950/30 rounded relative group">
             <Wind className="w-4 h-4 mb-1 text-cyan-600 dark:text-cyan-400" />
-            <span className="text-xs text-muted-foreground">{plant.humidity}%</span>
+            {isEditingHumidity ? (
+              <Input
+                type="number"
+                value={humidityValue}
+                onChange={(e) => setHumidityValue(e.target.value)}
+                onBlur={handleHumiditySave}
+                onKeyDown={(e) => e.key === "Enter" && handleHumiditySave()}
+                className="h-6 w-16 text-xs text-center p-0"
+                autoFocus
+              />
+            ) : (
+              <div className="flex items-center gap-1">
+                <span className="text-xs text-muted-foreground">{plant.humidity}%</span>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => setIsEditingHumidity(true)}
+                >
+                  <Edit2 className="w-3 h-3" />
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Tweet Feed */}
         <TweetFeed plant={plant} onUpdate={onUpdate} />
       </CardContent>
     </Card>

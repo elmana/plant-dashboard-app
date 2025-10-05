@@ -1,7 +1,8 @@
 import type { Plant, PlantCondition } from "./types"
+import { getHoursSince } from "./time-accelerator"
 
 export function checkPlantCondition(plant: Plant): PlantCondition {
-  const hoursSinceWatered = (Date.now() - plant.lastWatered.getTime()) / (1000 * 60 * 60)
+  const hoursSinceWatered = getHoursSince(plant.lastWatered)
 
   // Check water first (most critical)
   if (hoursSinceWatered > 72) {
