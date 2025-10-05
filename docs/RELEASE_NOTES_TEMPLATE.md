@@ -1,0 +1,3 @@
+# RELEASE NOTES TEMPLATE
+
+Placeholder for RELEASE_NOTES_TEMPLATE.md content.
