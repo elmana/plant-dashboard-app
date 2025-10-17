@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Adjusted low-humidity classification threshold from 30% to 40% in checkPlantCondition (lib/plant-monitor.ts). See PR #7.
+- Adjusted low-humidity classification threshold from 40% to 35% in checkPlantCondition (lib/plant-monitor.ts). See PR #9.
 
 ### Fixed
 - N/A
