@@ -10,7 +10,6 @@ export interface Plant {
   humidity: number // 0-100
   condition: PlantCondition
   tweets: Tweet[]
-  owner: string
 }
 
 export interface Tweet {
