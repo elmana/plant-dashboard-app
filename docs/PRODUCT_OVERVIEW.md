@@ -1,3 +1,14 @@
+## 2025-10-17
+### Added
+- Link to source of truth for health rule thresholds: lib/plant-monitor.ts → checkPlantCondition
+
+### Changed
+- Health Rules: clarified `low-humidity` threshold to `humidity < 35%` to match implementation in
+  lib/plant-monitor.ts → checkPlantCondition
+
+### Fixed
+- Documentation now matches code for the low-humidity threshold
+
 # Product Overview
 
 ## Goal
@@ -14,7 +25,7 @@ Keep plants alive by shaming… politely. The app alerts users via “tweets” 
 ## Health Rules
 - `thirsty` if `now - lastWateredAt > 72h`
 - `low-light` if `sun < 30%`
-- `low-humidity` if `humidity < 35%`
+- `low-humidity` if `humidity < 35%` (see lib/plant-monitor.ts → checkPlantCondition)
 - `high-humidity` if `humidity > 80%`
 - `healthy` otherwise
 
