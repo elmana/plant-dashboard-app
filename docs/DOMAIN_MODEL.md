@@ -50,7 +50,11 @@ export interface Tweet {
 }
 ```
 
-Implementation note: the application classifies a plant as low-humidity when humidity < 40 (percent).
+Implementation note: the application classifies a plant as low-humidity when humidity < 35 (percent).
+
+Additional details:
+- The low-humidity classification uses a strict less-than comparison against 35%. For example, a plant
+  with humidity = 34 is classified as "low-humidity", while humidity = 35 is not.
 
 ```mermaid
 erDiagram
