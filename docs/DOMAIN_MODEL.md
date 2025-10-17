@@ -50,6 +50,8 @@ export interface Tweet {
 }
 ```
 
+Implementation note: the application classifies a plant as low-humidity when humidity < 40 (percent).
+
 ```mermaid
 erDiagram
     PLANT {
