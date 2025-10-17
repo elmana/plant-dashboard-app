@@ -1,4 +1,3 @@
-
 # 🧩 Domain Model – LeafMeAlone
 
 This document defines the data model for **LeafMeAlone**, describing how plants, their environmental states, and their tweets are structured and related.
@@ -9,6 +8,7 @@ This document defines the data model for **LeafMeAlone**, describing how plants,
 
 Each plant in **LeafMeAlone** has:
 - A unique ID, name, type, and emoji  
+- owner: string — identifier for the plant owner
 - Environmental data (light and humidity levels)  
 - A `lastWatered` timestamp  
 - A `condition` reflecting its health status  
@@ -33,6 +33,7 @@ export interface Plant {
   name: string
   type: string
   emoji: string
+  owner: string
   lastWatered: Date
   lightLevel: number // 0–100
   humidity: number // 0–100
@@ -56,6 +57,7 @@ erDiagram
         string name
         string type
         string emoji
+        string owner
         date lastWatered
         number lightLevel
         number humidity
