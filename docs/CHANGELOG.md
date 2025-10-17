@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Initial docs-as-code structure
 - In-memory plants store, health evaluation, 6h scheduler
 - Ad-hoc tweet generator
+- types: Plant — added owner: string property to Plant interface.
 
 ### Changed
 - N/A
