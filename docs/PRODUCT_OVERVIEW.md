@@ -18,8 +18,6 @@ Keep plants alive by shaming… politely. The app alerts users via “tweets” 
 - `high-humidity` if `humidity > 80%`
 - `healthy` otherwise
 
-(Matches implementation: checkPlantCondition in lib/plant-monitor.ts — threshold adjusted from 40% to 35% in commit 987ff22)
-
 ## Non-Goals (v1)
 - Authentication/authorization
 - Mobile app
