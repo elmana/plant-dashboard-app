@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Adjusted low-humidity threshold from 40% to 35% in checkPlantCondition (lib/plant-monitor.ts). See PR #9, commit 987ff22d6947.
+- Removed owner property from Plant interface (lib/types.ts). Update downstream consumers accordingly.
+- Added many humorous pre-generated tweets (lib/pre-generated-tweets.ts).
 
 ### Fixed
 - N/A
@@ -32,7 +34,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - N/A  
-  
+
 ## 2025-10-14
 ### Added
 - Initial docs-as-code structure
