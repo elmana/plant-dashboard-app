@@ -52,9 +52,9 @@ export interface Tweet {
 
 Implementation note: the application classifies a plant as low-humidity when humidity < 35 (percent).
 
-Note (implementation source): the authoritative mapping from Plant.humidity to PlantCondition is implemented
-in the checkPlantCondition function (lib/plant-monitor.ts). Refer to that function for the exact
-classification logic and any future threshold adjustments.
+Additional details:
+- The low-humidity classification uses a strict less-than comparison against 35%. For example, a plant
+  with humidity = 34 is classified as "low-humidity", while humidity = 35 is not.
 
 ```mermaid
 erDiagram
