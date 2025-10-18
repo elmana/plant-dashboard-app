@@ -50,7 +50,7 @@ Full list → [📜 Tweet Catalog](docs/TWEET_CATALOG.md)
 | **Healthy** | Default | ✨ |
 | **Thirsty** | > 72 h since last watering | 💧 |
 | **Low-Light** | Sun < 30 % | 🌙 |
-| **Low-Humidity** | Humidity < 30 % | 🏜️ |
+| **Low-Humidity** | Humidity < 35 % | 🏜️ |
 | **High-Humidity** | Humidity > 80 % | 💦 |
 
 ```mermaid
@@ -65,12 +65,12 @@ stateDiagram-v2
 
   Healthy --> Thirsty: > 72h since water
   Healthy --> LowLight: sun < 30%
-  Healthy --> LowHumidity: humidity < 30%
+  Healthy --> LowHumidity: humidity < 35%
   Healthy --> HighHumidity: humidity > 80%
 
   Thirsty --> Healthy: water()
   LowLight --> Healthy: sun >= 30%
-  LowHumidity --> Healthy: humidity >= 30%
+  LowHumidity --> Healthy: humidity >= 35%
   HighHumidity --> Healthy: humidity <= 80%
 
 ```
