@@ -37,7 +37,7 @@ Each plant tracks its environment, determines its health, and posts developer-hu
 > - “Still waiting for water like I'm waiting for my PR to be reviewed. Day 3. Send help.”  
 > - “My light level is lower than my code coverage. At least TDD my watering schedule?”  
 > - “404: Water Not Found. It’s been 72 hours. Even my leaves are throwing exceptions now.”  
-> - “You push to main without testing. You forget to water me. I see a pattern.”  
+> - “You push to main without testing. You forget to water me. I see a pattern.”
 
 Full list → [📜 Tweet Catalog](docs/TWEET_CATALOG.md)
 
@@ -50,7 +50,7 @@ Full list → [📜 Tweet Catalog](docs/TWEET_CATALOG.md)
 | **Healthy** | Default | ✨ |
 | **Thirsty** | > 72 h since last watering | 💧 |
 | **Low-Light** | Sun < 30 % | 🌙 |
-| **Low-Humidity** | Humidity < 35 % | 🏜️ |
+| **Low-Humidity** | Humidity < 40 % | 🏜️ |
 | **High-Humidity** | Humidity > 80 % | 💦 |
 
 ```mermaid
@@ -65,15 +65,17 @@ stateDiagram-v2
 
   Healthy --> Thirsty: > 72h since water
   Healthy --> LowLight: sun < 30%
-  Healthy --> LowHumidity: humidity < 35%
+  Healthy --> LowHumidity: humidity < 40%
   Healthy --> HighHumidity: humidity > 80%
 
   Thirsty --> Healthy: water()
   LowLight --> Healthy: sun >= 30%
-  LowHumidity --> Healthy: humidity >= 35%
+  LowHumidity --> Healthy: humidity >= 40%
   HighHumidity --> Healthy: humidity <= 80%
 
 ```
+
+Note: These thresholds mirror the runtime logic in lib/plant-monitor.ts (source of truth).
 
 ---
 
