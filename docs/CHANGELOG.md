@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2025-10-18
+### Added
+- N/A
+
+### Changed
+- Adjusted low-humidity threshold from 35% to 50% (lib/plant-monitor.ts) — PR #17
+
+### Fixed
+- N/A
+
 ## 2025-10-17
 ### Added
 - N/A
@@ -32,7 +42,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - N/A  
-  
+
 ## 2025-10-14
 ### Added
 - Initial docs-as-code structure
