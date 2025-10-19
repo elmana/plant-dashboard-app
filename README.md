@@ -89,8 +89,6 @@ type Plant = {
   lastWateredAt?: string // ISO timestamp
   sunPercent?: number
   humidityPercent?: number
-  // New in latest patch:
-  owner?: string 
 }
 ```
 
