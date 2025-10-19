@@ -93,7 +93,7 @@ type Plant = {
   sunPercent?: number
   humidityPercent?: number
   // New in latest patch:
-  owner?: string // e.g. "alice@example.com"
+  owner?: string 
 }
 ```
 
