@@ -77,9 +77,6 @@ stateDiagram-v2
 
 Note: These thresholds mirror the runtime logic in lib/plant-monitor.ts (source of truth).
 
-Appendix: Owner field (runtime patch)
-
-- The Plant domain now includes an optional `owner` field. This field was introduced in the latest patch to track the user responsible for a plant.
 
 Example TypeScript representation:
 
