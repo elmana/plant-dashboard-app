@@ -14,9 +14,11 @@ Keep plants alive by shaming… politely. The app alerts users via “tweets” 
 ## Health Rules
 - `thirsty` if `now - lastWateredAt > 72h`
 - `low-light` if `sun < 30%`
-- `low-humidity` if `humidity < 40%`
+- `low-humidity` if `humidity < 30%`
 - `high-humidity` if `humidity > 80%`
 - `healthy` otherwise
+
+- Note: the low-humidity threshold was adjusted from 40% to 30% in a recent patch.
 
 ## Non-Goals (v1)
 - Authentication/authorization

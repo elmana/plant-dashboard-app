@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2025-10-19
+### Added
+- types: Plant — added owner: string property to Plant interface. See PR #21.
+
+### Changed
+- Adjusted low-humidity threshold from 40% to 30% in checkPlantCondition (lib/plant-monitor.ts). See PR #21.
+
+### Fixed
+- N/A
+
 ## 2025-10-18
 ### Added
 - N/A
@@ -42,7 +52,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - N/A  
-  
+
 ## 2025-10-14
 ### Added
 - Initial docs-as-code structure

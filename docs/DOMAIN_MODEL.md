@@ -50,6 +50,10 @@ export interface Tweet {
 }
 ```
 
+Note on owner: the `owner` property is a non-optional string in the TypeScript interface (`owner: string`). It is intended to hold an identifier
+for the plant's owner (for example, a username or user id). When deploying this change, existing persisted Plant objects (e.g., in `localStorage`
+or any other persistence layer) will need to be migrated to include an `owner` value.
+
 Implementation note: the application classifies a plant as low-humidity when humidity < 35 (percent).
 
 Additional details:

@@ -50,7 +50,7 @@ Full list → [📜 Tweet Catalog](docs/TWEET_CATALOG.md)
 | **Healthy** | Default | ✨ |
 | **Thirsty** | > 72 h since last watering | 💧 |
 | **Low-Light** | Sun < 30 % | 🌙 |
-| **Low-Humidity** | Humidity < 40 % | 🏜️ |
+| **Low-Humidity** | Humidity < 30 % | 🏜️ |
 | **High-Humidity** | Humidity > 80 % | 💦 |
 
 ```mermaid
@@ -65,17 +65,37 @@ stateDiagram-v2
 
   Healthy --> Thirsty: > 72h since water
   Healthy --> LowLight: sun < 30%
-  Healthy --> LowHumidity: humidity < 40%
+  Healthy --> LowHumidity: humidity < 30%
   Healthy --> HighHumidity: humidity > 80%
 
   Thirsty --> Healthy: water()
   LowLight --> Healthy: sun >= 30%
-  LowHumidity --> Healthy: humidity >= 40%
+  LowHumidity --> Healthy: humidity >= 30%
   HighHumidity --> Healthy: humidity <= 80%
 
 ```
 
 Note: These thresholds mirror the runtime logic in lib/plant-monitor.ts (source of truth).
+
+Appendix: Owner field (runtime patch)
+
+- The Plant domain now includes an optional `owner` field. This field was introduced in the latest patch to track the user responsible for a plant.
+
+Example TypeScript representation:
+
+```ts
+type Plant = {
+  id: string
+  name: string
+  type: string
+  emoji?: string
+  lastWateredAt?: string // ISO timestamp
+  sunPercent?: number
+  humidityPercent?: number
+  // New in latest patch:
+  owner?: string 
+}
+```
 
 ---
 
@@ -136,3 +156,4 @@ npm run dev
 ---
 
 > 💚 **Motto:** “Ship water, not features.”
+
