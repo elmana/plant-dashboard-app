@@ -8,7 +8,6 @@ This document defines the data model for **LeafMeAlone**, describing how plants,
 
 Each plant in **LeafMeAlone** has:
 - A unique ID, name, type, and emoji  
-- owner: string — identifier for the plant owner
 - Environmental data (light and humidity levels)  
 - A `lastWatered` timestamp  
 - A `condition` reflecting its health status  
@@ -33,7 +32,6 @@ export interface Plant {
   name: string
   type: string
   emoji: string
-  owner: string
   lastWatered: Date
   lightLevel: number // 0–100
   humidity: number // 0–100
@@ -50,9 +48,7 @@ export interface Tweet {
 }
 ```
 
-Note on owner: the `owner` property is a non-optional string in the TypeScript interface (`owner: string`). It is intended to hold an identifier
-for the plant's owner (for example, a username or user id). When deploying this change, existing persisted Plant objects (e.g., in `localStorage`
-or any other persistence layer) will need to be migrated to include an `owner` value.
+Note: the Plant interface no longer includes an `owner` field. If you have persisted Plant objects (for example in `localStorage`), update/migrate stored data structures to match the revised interface.
 
 Implementation note: the application classifies a plant as low-humidity when humidity < 35 (percent).
 
@@ -67,7 +63,6 @@ erDiagram
         string name
         string type
         string emoji
-        string owner
         date lastWatered
         number lightLevel
         number humidity
