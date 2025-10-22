@@ -32,7 +32,6 @@ export interface Plant {
   name: string
   type: string
   emoji: string
-  owner: string
   lastWatered: Date
   lightLevel: number // 0–100
   humidity: number // 0–100
@@ -49,13 +48,6 @@ export interface Tweet {
 }
 ```
 
-Note: the Plant interface now includes an `owner` field of type `string`. If you have persisted Plant objects (for example in `localStorage`), update/migrate stored data structures to include the `owner` string.
-
-Implementation note: the application classifies a plant as low-humidity when humidity < 35 (percent).
-
-Additional details:
-- The low-humidity classification uses a strict less-than comparison against 35%. For example, a plant
-  with humidity = 34 is classified as "low-humidity", while humidity = 35 is not.
 
 ```mermaid
 erDiagram
@@ -64,7 +56,6 @@ erDiagram
         string name
         string type
         string emoji
-        string owner
         date lastWatered
         number lightLevel
         number humidity
