@@ -4,6 +4,7 @@ export interface Plant {
   id: string
   name: string
   type: string
+  owner: string
   emoji: string
   lastWatered: Date
   lightLevel: number // 0-100
