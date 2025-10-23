@@ -3,6 +3,7 @@ export type PlantCondition = "healthy" | "thirsty" | "low-light" | "high-humidit
 export interface Plant {
   id: string
   name: string
+  nickname: string
   type: string
   owner: string
   emoji: string
