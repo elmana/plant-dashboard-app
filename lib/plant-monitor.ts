@@ -20,7 +20,7 @@ export function checkPlantCondition(plant: Plant): PlantCondition {
     return "high-humidity"
   }
 
-  if (plant.humidity < 20) {
+  if (plant.humidity < 30) {
     return "low-humidity"
   }
 
